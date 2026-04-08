@@ -1,5 +1,5 @@
 """
-EduAI - Dialog de Cadastro de Instituição
+Dialog de Cadastro de Instituição
 Interface para cadastro e edição de instituições
 """
 

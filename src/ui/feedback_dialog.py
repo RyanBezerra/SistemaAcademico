@@ -1,5 +1,5 @@
 """
-EduAI - Diálogo de Feedback
+Diálogo de Feedback
 Interface para criação e edição de feedbacks sobre aulas
 """
 

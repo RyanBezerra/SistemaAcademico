@@ -7,7 +7,7 @@ from pathlib import Path
 class DatabaseConfig:
     """Configurações do banco de dados"""
     host: str = "auth-db1524.hstgr.io"
-    port: int = 3306  # Porta padrão MySQL (Hostinger geralmente usa MySQL)
+    port: int = 3306 
     database: str = "u359247811_biocalculadora"
     user: str = "u359247811_admin2"
     password: str = "cP$6nHI6Pmm"
@@ -41,9 +41,9 @@ class SecurityConfig:
 @dataclass
 class AppConfig:
     """Configurações gerais da aplicação"""
-    app_name: str = "EduAI"
+    app_name: str = "Sistema"
     app_version: str = "1.0.0"
-    app_description: str = "Plataforma de Ensino Inteligente"
+    app_description: str = "Gestão Educacional"
     debug_mode: bool = False
     log_level: str = "INFO"
     cache_enabled: bool = True
@@ -98,7 +98,7 @@ class Config:
         return {
             'level': self.app.log_level,
             'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            'file': 'eduai.log' if not self.app.debug_mode else None
+            'file': 'app.log' if not self.app.debug_mode else None
         }
 
 # Instância global de configuração
@@ -113,13 +113,8 @@ class Constants:
     LOGS_DIR = Path("logs")
     CACHE_DIR = Path("cache")
     
-    # Arquivos
-    LOGO_WHITE = IMAGES_DIR / "LogoBrancaSemFundo - Editado.png"
-    LOGO_BLACK = IMAGES_DIR / "LogoPretaSemFundo - Editado.png"
-    LOGO_ORIGINAL = IMAGES_DIR / "Logo.jpg"
-    
     # Mensagens
-    WELCOME_MESSAGE = "Bem-vindo ao EduAI!"
+    WELCOME_MESSAGE = "Bem-vindo ao sistema!"
     LOGIN_SUCCESS = "Login realizado com sucesso!"
     LOGOUT_SUCCESS = "Logout realizado com sucesso!"
     SAVE_SUCCESS = "Dados salvos com sucesso!"

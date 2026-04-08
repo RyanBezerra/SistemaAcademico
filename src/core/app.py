@@ -1,5 +1,5 @@
 """
-EduAI - Plataforma de Ensino Inteligente
+Sistema - Plataforma de Gestão Educacional
 """
 
 import sys
@@ -14,13 +14,13 @@ import json
 import time
 import qtawesome as qta
 from ..ui.profile_widget import ProfileWidget
-from ..config import config, constants
+from ..config import config
 from ..utils import get_logger, search_validator, LogOperation
 from ..utils.logger import logger_manager
 from ..utils.embeddings import search_similar_aulas, ensure_aula_embeddings
 # Removido para evitar importação circular - será importado quando necessário
 
-class EduAIApp(QMainWindow):
+class MainApp(QMainWindow):
     # Sinal emitido quando o usuário quer fazer logout
     logout_requested = Signal()
     
@@ -69,33 +69,23 @@ class EduAIApp(QMainWindow):
         header_widget = QWidget()
         header_layout = QVBoxLayout(header_widget)
         
-        # Linha superior com logo e informações do usuário
+        # Linha superior com ícone e informações do usuário
         top_row = QHBoxLayout()
         
-        # Logo e título
-        logo_container = QHBoxLayout()
-        logo_container.setSpacing(10)
+        title_container = QHBoxLayout()
+        title_container.setSpacing(10)
         
-        # Logo personalizada
-        logo_icon = QLabel()
-        logo_pixmap = QPixmap(str(constants.LOGO_BLACK))
-        if not logo_pixmap.isNull():
-            # Redimensionar para 48x48 mantendo proporção
-            logo_pixmap = logo_pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-            logo_icon.setPixmap(logo_pixmap)
-        else:
-            # Fallback para ícone Font Awesome se a imagem não for encontrada
-            logo_icon.setPixmap(qta.icon('fa5s.graduation-cap', color="#2c3e50").pixmap(32, 32))
-        logo_container.addWidget(logo_icon)
+        icon_label = QLabel()
+        icon_label.setPixmap(qta.icon('fa5s.graduation-cap', color="#2c3e50").pixmap(32, 32))
+        title_container.addWidget(icon_label)
         
-        # Título
-        logo_label = QLabel(f"{config.app.app_name} - {config.app.app_description}")
-        logo_font = QFont("Segoe UI", 18, QFont.Weight.Bold)
-        logo_label.setFont(logo_font)
-        logo_label.setStyleSheet("color: #2c3e50;")
-        logo_container.addWidget(logo_label)
+        title_label = QLabel(f"{config.app.app_name} - {config.app.app_description}")
+        title_font = QFont("Segoe UI", 18, QFont.Weight.Bold)
+        title_label.setFont(title_font)
+        title_label.setStyleSheet("color: #2c3e50;")
+        title_container.addWidget(title_label)
         
-        top_row.addLayout(logo_container)
+        top_row.addLayout(title_container)
         
         # Espaçador
         top_row.addStretch()
@@ -815,7 +805,7 @@ Lembre-se: O aprendizado é um processo contínuo. Continue explorando e questio
         
     def _show_help(self):
         """Mostra a ajuda"""
-        help_text = """AJUDA - EduAI
+        help_text = """AJUDA - Sistema
 
 COMO USAR:
 1. Digite sua pergunta no campo de busca
@@ -897,7 +887,7 @@ Para mais informações, entre em contato conosco!"""
         self.setCentralWidget(self.suggestions_widget)
         
         # Atualizar título da janela
-        self.setWindowTitle(f"EduAI - Sugestões de Aulas - {self.user_name}")
+        self.setWindowTitle(f"{config.app.app_name} - Sugestões de Aulas - {self.user_name}")
     
     def _show_dashboard_view(self):
         """Mostra a view do dashboard na janela principal"""
@@ -1011,7 +1001,7 @@ Para mais informações, entre em contato conosco!"""
         self.setCentralWidget(self.profile_widget)
         
         # Atualizar título da janela
-        self.setWindowTitle(f"EduAI - Meu Perfil - {self.user_name}")
+        self.setWindowTitle(f"{config.app.app_name} - Meu Perfil - {self.user_name}")
     
     def _on_suggestions_back(self, user_name):
         """Chamado quando o usuário volta das sugestões"""
@@ -1060,12 +1050,14 @@ Para mais informações, entre em contato conosco!"""
         """)
         msg.exec()
 
-class EduAIManager:
-    """Gerenciador principal da aplicação EduAI"""
+class AppManager:
+    """Gerenciador principal da aplicação"""
     
     def __init__(self, app=None):
         self.app = app or QApplication.instance()
         self.current_window = None
+        if self.app is not None:
+            self.app.setQuitOnLastWindowClosed(False)
     
     def start(self):
         """Inicia a aplicação com tela de login"""
@@ -1083,14 +1075,24 @@ class EduAIManager:
     
     def _on_login_success(self, user_name):
         """Chamado quando o login é bem-sucedido"""
-        # Fechar janela atual primeiro
+        # Fechar a janela de autenticação antes de abrir o dashboard
         if self.current_window:
-            self.current_window.close()
-            self.current_window = None
-        
+            try:
+                self.current_window.close()
+            except Exception:
+                pass
+            finally:
+                self.current_window = None
+
         # Abrir dashboard imediatamente
-        self._open_dashboard(user_name)
-    
+        try:
+            self._open_dashboard(user_name)
+        except Exception as e:
+            from ..utils import get_logger
+            logger = get_logger('core.app')
+            logger.error(f"Erro ao abrir dashboard após login: {e}")
+            return
+
     def _open_dashboard(self, user_name):
         """Abre o dashboard apropriado para o usuário"""
         # Verificar perfil do usuário para redirecionar
@@ -1098,6 +1100,7 @@ class EduAIManager:
             from .database import db_manager  # import relativo dentro do método
         except Exception:
             from ..core.database import db_manager  # fallback quando chamado de main
+
         user = db_manager.get_user_by_name(user_name)
         perfil = (user or {}).get('perfil')
 
@@ -1105,7 +1108,7 @@ class EduAIManager:
             from ..ui.admin_dashboard import AdminDashboard
             window = AdminDashboard(user_name)
         else:
-            window = EduAIApp(user_name)
+            window = MainApp(user_name)
 
         if hasattr(window, 'logout_requested'):
             window.logout_requested.connect(self._on_logout_requested)
@@ -1122,7 +1125,7 @@ class EduAIManager:
 
 def main():
     # Usar o gerenciador para controlar o fluxo de login/dashboard
-    manager = EduAIManager()
+    manager = AppManager()
     manager.start()
 
 if __name__ == '__main__':

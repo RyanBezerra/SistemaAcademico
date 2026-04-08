@@ -1,6 +1,6 @@
 """
-EduAI - Tela de Login
-Sistema de autenticação para a Plataforma de Ensino Inteligente
+Tela de Login
+Sistema de autenticação para a aplicação
 """
 
 import sys
@@ -12,8 +12,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QFrame, QGridLayout, QSizePolicy, QMessageBox,
                              QCheckBox, QSpacerItem, QSizePolicy)
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, Signal
-from PySide6.QtGui import QFont, QIcon, QPixmap, QColor, QCursor, QPalette
-import qtawesome as qta
+from PySide6.QtGui import QFont, QCursor
 from ..core.database import db_manager
 
 class LoginWindow(QMainWindow):
@@ -22,7 +21,7 @@ class LoginWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("EduAI - Login")
+        self.setWindowTitle("Login")
         self.setGeometry(100, 100, 1000, 700)
         self.setMinimumSize(800, 600)
         
@@ -61,130 +60,21 @@ class LoginWindow(QMainWindow):
     
     def _create_login_layout(self, parent_layout):
         """Cria o layout principal da tela de login"""
-        # Container principal
-        main_container = QFrame()
-        main_container.setObjectName("mainContainer")
-        container_layout = QHBoxLayout(main_container)
-        container_layout.setContentsMargins(0, 0, 0, 0)
-        container_layout.setSpacing(0)
-        
-        # Painel esquerdo - Informações da plataforma
-        left_panel = self._create_left_panel()
-        container_layout.addWidget(left_panel, 1)
-        
-        # Painel direito - Formulário de login
         right_panel = self._create_right_panel()
-        container_layout.addWidget(right_panel, 1)
-        
-        parent_layout.addWidget(main_container)
+        parent_layout.addStretch()
+        parent_layout.addWidget(right_panel)
+        parent_layout.addStretch()
     
-    def _create_left_panel(self):
-        """Cria o painel esquerdo com informações da plataforma"""
-        left_panel = QFrame()
-        left_panel.setObjectName("leftPanel")
-        left_layout = QVBoxLayout(left_panel)
-        left_layout.setContentsMargins(60, 60, 60, 60)
-        left_layout.setSpacing(30)
-        
-        # Logo e título (lado a lado)
-        logo_container = QHBoxLayout()
-        logo_container.setSpacing(0)
-        logo_container.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # Ícone da plataforma
-        logo_icon = QLabel()
-        logo_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # Carregar logo personalizada
-        logo_pixmap = QPixmap("Imagens/LogoBrancaSemFundo - Editado.png")
-        if not logo_pixmap.isNull():
-            # Redimensionar para 135x135 mantendo proporção
-            logo_pixmap = logo_pixmap.scaled(135, 135, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-            logo_icon.setPixmap(logo_pixmap)
-        else:
-            # Fallback para ícone Font Awesome se a imagem não for encontrada
-            logo_icon.setPixmap(qta.icon('fa5s.graduation-cap', color="#ffffff").pixmap(80, 80))
-        logo_container.addWidget(logo_icon)
-        
-        # Container do texto (título e subtítulo)
-        text_container = QVBoxLayout()
-        text_container.setSpacing(5)
-        
-        # Título principal
-        title_label = QLabel("EduAI")
-        title_font = QFont("Segoe UI", 36, QFont.Weight.Bold)
-        title_label.setFont(title_font)
-        title_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        title_label.setStyleSheet("color: #ffffff; margin-bottom: 5px;")
-        text_container.addWidget(title_label)
-        
-        # Subtítulo
-        subtitle_label = QLabel("Plataforma de Ensino Inteligente")
-        subtitle_font = QFont("Segoe UI", 16)
-        subtitle_label.setFont(subtitle_font)
-        subtitle_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        subtitle_label.setStyleSheet("color: #ecf0f1; margin-bottom: 20px;")
-        text_container.addWidget(subtitle_label)
-        
-        logo_container.addLayout(text_container)
-        
-        left_layout.addLayout(logo_container)
-        
-        # Espaçador
-        left_layout.addStretch()
-        
-        # Características da plataforma
-        features_container = QVBoxLayout()
-        features_container.setSpacing(15)
-        
-        features = [
-            ("fa5s.brain", "Inteligência Artificial", "Aulas personalizadas baseadas em IA"),
-            ("fa5s.users", "Aprendizado Adaptativo", "Conteúdo que se adapta ao seu ritmo"),
-            ("fa5s.chart-line", "Progresso Inteligente", "Acompanhe seu desenvolvimento"),
-            ("fa5s.globe", "Acesso Universal", "Aprenda de qualquer lugar, a qualquer hora")
-        ]
-        
-        for icon_name, title, description in features:
-            feature_layout = QHBoxLayout()
-            feature_layout.setSpacing(15)
-            
-            # Ícone
-            icon_label = QLabel()
-            icon_label.setPixmap(qta.icon(icon_name, color="#ffffff").pixmap(24, 24))
-            feature_layout.addWidget(icon_label)
-            
-            # Texto
-            text_container = QVBoxLayout()
-            text_container.setSpacing(5)
-            
-            title_label = QLabel(title)
-            title_label.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
-            title_label.setStyleSheet("color: #ffffff;")
-            text_container.addWidget(title_label)
-            
-            desc_label = QLabel(description)
-            desc_label.setFont(QFont("Segoe UI", 10))
-            desc_label.setStyleSheet("color: #bdc3c7;")
-            desc_label.setWordWrap(True)
-            text_container.addWidget(desc_label)
-            
-            feature_layout.addLayout(text_container)
-            feature_layout.addStretch()
-            features_container.addLayout(feature_layout)
-        
-        left_layout.addLayout(features_container)
-        
-        # Espaçador final
-        left_layout.addStretch()
-        
-        return left_panel
     
     def _create_right_panel(self):
         """Cria o painel direito com o formulário de login"""
         right_panel = QFrame()
         right_panel.setObjectName("rightPanel")
+        right_panel.setMaximumWidth(520)
         right_layout = QVBoxLayout(right_panel)
         right_layout.setContentsMargins(60, 60, 60, 60)
         right_layout.setSpacing(30)
+        right_layout.addStretch()
         
         # Container do formulário
         form_container = QFrame()
@@ -359,6 +249,7 @@ class LoginWindow(QMainWindow):
         form_layout.addStretch()
         
         right_layout.addWidget(form_container)
+        right_layout.addStretch()
         
         return right_panel
     
@@ -381,12 +272,6 @@ class LoginWindow(QMainWindow):
             QFrame#mainContainer {
                 background: #ffffff !important;
                 background-color: #ffffff !important;
-            }
-            
-            QFrame#leftPanel {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, 
-                    stop:0 #2c2c2c, stop:1 #1a1a1a) !important;
-                border-radius: 0px;
             }
             
             QFrame#rightPanel {

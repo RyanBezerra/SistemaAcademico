@@ -1,5 +1,5 @@
 """
-EduAI - Dashboard Administrativo
+Dashboard Administrativo
 Interface moderna e profissional para administradores do sistema.
 """
 
@@ -33,10 +33,10 @@ class AdminDashboard(QMainWindow):
         
         # Configurações da janela
         if self.is_admin:
-            self.setWindowTitle(f"EduAI - Painel Administrativo - {user_name}")
+            self.setWindowTitle(f"Painel Administrativo - {user_name}")
             self.setGeometry(100, 100, 1400, 900)
         else:
-            self.setWindowTitle(f"EduAI - Painel do Educador - {user_name}")
+            self.setWindowTitle(f"Painel do Educador - {user_name}")
             self.setGeometry(120, 120, 1200, 800)
         
         # Configurar interface
@@ -123,7 +123,7 @@ class AdminDashboard(QMainWindow):
         
         # Subtítulo
         subtitle_label = QLabel()
-        subtitle_label.setText("EduAI - Sistema de Gestão Educacional")
+        subtitle_label.setText("Sistema de Gestão Educacional")
         subtitle_label.setObjectName("subtitle")
         title_container.addWidget(subtitle_label)
         

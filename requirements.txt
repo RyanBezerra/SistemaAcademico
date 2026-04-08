@@ -1,4 +1,4 @@
-# EduAI - Plataforma de Ensino Inteligente
+# Plataforma de Ensino Inteligente
 # Dependências obrigatórias para execução
 
 # PySide6 - Framework para interface gráfica (versão mais recente)

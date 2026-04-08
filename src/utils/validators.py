@@ -1,5 +1,5 @@
 """
-EduAI - Sistema de Validação
+Sistema - Sistema de Validação
 Sistema centralizado de validação de dados
 """
 

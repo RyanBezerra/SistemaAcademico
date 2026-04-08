@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt
 from .config import config
 from .utils import get_logger, cache_manager
 from .core.database import db_manager
-from .core.app import EduAIManager
+from .core.app import AppManager
 
 def setup_application():
     """Configura a aplicação Qt"""
@@ -14,7 +14,7 @@ def setup_application():
         app = QApplication(sys.argv)
         app.setApplicationName(config.app.app_name)
         app.setApplicationVersion(config.app.app_version)
-        app.setOrganizationName("EduAI")
+        app.setOrganizationName(config.app.app_name)
         
         app.setStyle('Fusion')
     
@@ -132,7 +132,7 @@ def main():
         
         app.aboutToQuit.connect(cleanup_resources)
         
-        manager = EduAIManager(app)
+        manager = AppManager(app)
         manager.start()
         
         return 0

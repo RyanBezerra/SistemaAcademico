@@ -6,9 +6,9 @@ from datetime import datetime
 from typing import Optional
 from ..config import config
 
-class EduAILogger:
+class AppLogger:
     
-    _instance: Optional['EduAILogger'] = None
+    _instance: Optional['AppLogger'] = None
     _initialized: bool = False
     
     def __new__(cls):
@@ -19,11 +19,11 @@ class EduAILogger:
     def __init__(self):
         if not self._initialized:
             self._setup_logging()
-            EduAILogger._initialized = True
+            AppLogger._initialized = True
     
     def _setup_logging(self):
         """Configura o sistema de logging"""
-        self.logger = logging.getLogger('EduAI')
+        self.logger = logging.getLogger('App')
         self.logger.setLevel(getattr(logging, config.app.log_level))
         
         self.logger.handlers.clear()
@@ -42,7 +42,7 @@ class EduAILogger:
             log_dir = Path("logs")
             log_dir.mkdir(exist_ok=True)
 
-            log_file = log_dir / f"eduai_{datetime.now().strftime('%Y%m%d')}.log"
+            log_file = log_dir / f"app_{datetime.now().strftime('%Y%m%d')}.log"
             file_handler = logging.handlers.RotatingFileHandler(
                 log_file,
                 maxBytes=10 * 1024 * 1024,
@@ -65,7 +65,7 @@ class EduAILogger:
     def get_logger(self, name: str = None) -> logging.Logger:
         """Retorna um logger específico"""
         if name:
-            return logging.getLogger(f'EduAI.{name}')
+            return logging.getLogger(f'App.{name}')
         return self.logger
     
     def log_database_operation(self, operation: str, table: str, success: bool, details: str = ""):
@@ -102,7 +102,7 @@ class EduAILogger:
             message += f" - {details}"
         self.logger.info(message)
 
-logger_manager = EduAILogger()
+logger_manager = AppLogger()
 
 def get_logger(name: str = None) -> logging.Logger:
     """Função de conveniência para obter um logger"""

@@ -1,5 +1,5 @@
 """
-EduAI - Dashboard do Educador
+Dashboard do Educador
 Lista de alunos e pesquisas, inspirado no layout do Figma fornecido.
 """
 
@@ -22,7 +22,7 @@ class EducatorDashboard(QMainWindow):
     def __init__(self, user_name: str):
         super().__init__()
         self.user_name = user_name
-        self.setWindowTitle(f"EduAI - Painel do Educador - {user_name}")
+        self.setWindowTitle(f"Painel do Educador - {user_name}")
         self.setGeometry(120, 120, 1200, 800)
 
         central = QWidget()

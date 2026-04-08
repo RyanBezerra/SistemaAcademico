@@ -1,6 +1,6 @@
 """
-EduAI - Utilitários
-Módulo de utilitários para a Plataforma de Ensino Inteligente
+Sistema - Utilitários
+Módulo de utilitários para a plataforma
 """
 
 from .logger import get_logger, log_function_call, LogOperation

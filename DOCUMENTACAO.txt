@@ -1,9 +1,10 @@
-# Plataforma de Ensino Inteligente
+# Sistema Acadêmico - Plataforma de Ensino Inteligente
 ## Documentação Técnica Resumida
 
 ---
 
 ## 1. Visão Geral
+
 Nossa aplicação é uma ferramenta que ajuda a desenvolver o gosto, das gerações mais recentes, ao uso dos SOs mais usados recente: Windows e Linux, afim de prepara-los para uma vida acadêmica e profissional mais autentica. Com explicações rápidas e consisas sobre o uso dos comandos, atalhos e usabilidade geral desses sistemas. Além de um bom uso da IA, permitindo o usuario perguntar o que deseja saber sobre tal questão ou dúvida que eventualmente venha a ter dentro da sua máquina.
 
 

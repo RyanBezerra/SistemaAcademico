@@ -1,5 +1,5 @@
 """
-EduAI - Tela de Perfil do Usuário
+Tela de Perfil do Usuário
 Interface para visualização e edição dos dados do perfil
 """
 
@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QScrollArea, QListWidget, QListWidgetItem, QDialog,
                              QDialogButtonBox, QFormLayout, QSpinBox, QCheckBox)
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QFont, QPixmap, QCursor
+from PySide6.QtGui import QFont, QCursor
 import qtawesome as qta
 from datetime import datetime
 from ..utils.font_utils import get_portable_font
@@ -26,7 +26,7 @@ class ProfileWindow(QMainWindow):
         self.original_data = user_data.copy() if user_data else {}
         self.is_editing = False
         
-        self.setWindowTitle(f"EduAI - Meu Perfil - {user_name}")
+        self.setWindowTitle(f"Meu Perfil - {user_name}")
         self.setGeometry(150, 150, 800, 600)
         
         # Widget central
@@ -61,38 +61,13 @@ class ProfileWindow(QMainWindow):
         logo_container = QHBoxLayout()
         logo_container.setSpacing(10)
         
-        # Logo personalizada
+        # Ícone genérico do perfil
         logo_icon = QLabel()
-        import os
-        # Tentar diferentes caminhos possíveis para a logo
-        logo_paths = [
-            os.path.join("assets", "images", "LogoPretaSemFundo - Editado.png"),
-            os.path.join("assets", "images", "LogoPretaSemFundo.png"),
-            os.path.join("Imagens", "LogoPretaSemFundo - Editado.png"),
-            os.path.join("Imagens", "LogoPretaSemFundo.png"),
-            "assets/images/LogoPretaSemFundo - Editado.png",
-            "assets/images/LogoPretaSemFundo.png",
-            "Imagens/LogoPretaSemFundo - Editado.png",
-            "Imagens/LogoPretaSemFundo.png"
-        ]
-        
-        logo_pixmap = QPixmap()
-        for path in logo_paths:
-            if os.path.exists(path):
-                logo_pixmap = QPixmap(path)
-                if not logo_pixmap.isNull():
-                    break
-        
-        if not logo_pixmap.isNull():
-            logo_pixmap = logo_pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-            logo_icon.setPixmap(logo_pixmap)
-        else:
-            # Fallback para ícone do qtawesome se a imagem não for encontrada
-            logo_icon.setPixmap(qta.icon('fa5s.graduation-cap', color="#2c3e50").pixmap(32, 32))
+        logo_icon.setPixmap(qta.icon('fa5s.user-circle', color="#2c3e50").pixmap(32, 32))
         logo_container.addWidget(logo_icon)
         
         # Título com gradiente
-        logo_label = QLabel("EduAI - Meu Perfil")
+        logo_label = QLabel("Meu Perfil")
         logo_label.setFont(get_portable_font("Segoe UI", 20, QFont.Weight.Bold))
         logo_label.setStyleSheet("""
             color: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
@@ -681,7 +656,7 @@ class ProfileWindow(QMainWindow):
         footer_layout.addStretch()
         
         # Informação de versão
-        version_label = QLabel("EduAI v1.0 - Plataforma de Ensino Inteligente")
+        version_label = QLabel("Sistema v1.0 - Gestão Educacional")
         version_label.setFont(QFont("Segoe UI", 9))
         version_label.setStyleSheet("color: #95a5a6;")
         footer_layout.addWidget(version_label)

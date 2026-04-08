@@ -1,5 +1,5 @@
 """
-EduAI - Tela de Sugestões de Aulas
+Tela de Sugestões de Aulas
 Interface moderna para que educadores possam sugerir novas aulas para o sistema
 """
 

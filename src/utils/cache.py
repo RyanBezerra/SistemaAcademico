@@ -1,5 +1,5 @@
 """
-EduAI - Sistema de Cache
+Sistema - Cache
 Sistema de cache em memória para melhorar performance
 """
 

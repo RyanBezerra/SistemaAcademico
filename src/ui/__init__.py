@@ -1,5 +1,5 @@
 """
-EduAI - UI Module
+Sistema - UI Module
 Módulo de interface do usuário
 """
 
