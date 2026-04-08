@@ -1,4 +1,4 @@
-# EduAI - Plataforma de Ensino Inteligente
+# Plataforma de Ensino Inteligente
 
 Plataforma de ensino baseada em inteligência artificial, desenvolvida com **Python**, **PySide6** e **MySQL**.
 
